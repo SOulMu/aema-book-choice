@@ -1,132 +1,96 @@
-body::before {
-  content: "";
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0a0a23;
+  color: white;
+  overflow-x: hidden;
+}
+
+.animated-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background: url('https://www.transparenttextures.com/patterns/hexellence.png');
-  opacity: 0.05;
-  animation: moveTexture 60s linear infinite;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #0f0f1f, #001f3f, #003366, #000000);
+  background-size: 400% 400%;
+  animation: bgMove 20s ease infinite;
   z-index: -1;
-  pointer-events: none;
 }
 
-@keyframes moveTexture {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(-50%, -50%);
-  }
+@keyframes bgMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 
-@keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.container {
+  text-align: center;
+  padding: 50px;
 }
 
-h1 {
-  margin-top: 30px;
-  font-size: 3em;
-  color: #58a6ff;
-  text-shadow: 0 0 10px #58a6ff;
+.logo {
+  font-size: 3rem;
+  color: #00ccff;
+  margin-bottom: 20px;
 }
 
-input, button {
-  padding: 10px 15px;
-  margin: 10px;
-  border-radius: 10px;
+.search-box input {
+  padding: 10px;
+  width: 300px;
+  border-radius: 8px;
   border: none;
-  font-size: 1em;
-  outline: none;
+  font-size: 1rem;
 }
 
-button {
-  background: #58a6ff;
-  color: #fff;
+.search-box button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #00ccff;
+  border: none;
+  color: white;
+  border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 10px #58a6ff;
-  transition: background 0.3s;
 }
 
-button:hover {
-  background: #3b8de3;
-}
-
-#adminBtn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  background: #d1ffd1;
-  color: black;
-  font-weight: bold;
-}
-
-#adminPanel, #adminContent {
-  background: rgba(0,0,0,0.7);
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 20px;
-  box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
+.results {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
+}
+
+.result-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #00ccff;
+  text-align: left;
+}
+
+.result-card img {
+  float: right;
+  width: 80px;
+  border-radius: 8px;
+}
+
+.admin-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #aaffaa;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.admin-panel {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  display: inline-block;
 }
 
 .hidden {
   display: none;
-}
-
-#scrolling-books {
-  display: flex;
-  gap: 40px;
-  margin-top: 30px;
-  animation: scrollBooks 40s linear infinite;
-}
-
-#scrolling-books div {
-  text-align: center;
-}
-
-#scrolling-books img {
-  border-radius: 10px;
-  box-shadow: 0 0 10px #58a6ff;
-}
-
-@keyframes scrollBooks {
-  0% { transform: translateX(100vw); }
-  100% { transform: translateX(-100%); }
-}
-
-#recommendations {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 90%;
-  max-width: 800px;
-}
-
-@media screen and (max-width: 600px) {
-  h1 {
-    font-size: 2em;
-  }
-
-  input, button {
-    width: 90%;
-    font-size: 1em;
-  }
-
-  #scrolling-books {
-    flex-direction: column;
-    animation: none;
-  }
 }
