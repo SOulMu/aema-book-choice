@@ -1,0 +1,1 @@
+// JavaScript logic including search, scroll, and API fetch
