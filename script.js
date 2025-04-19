@@ -62,7 +62,7 @@ function updateScrollView() {
 }
 
 async function fetchFromAPI(title) {
-  const apiKey = "YOUR_GOOGLE_BOOKS_API_KEY"; // <-- Replace this
+  const apiKey = "AIzaSyAVGNIaBoXiPMm5nSsnIYTyBzuprmMnKPc"; // <-- Replace this
   const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(title)}&key=${apiKey}`);
   const json = await res.json();
   if (json.items && json.items.length > 0) {
