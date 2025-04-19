@@ -1,49 +1,110 @@
 body {
-  background-color: #0d1117;
-  font-family: 'Segoe UI', sans-serif;
-  color: #c9d1d9;
   margin: 0;
   padding: 0;
-}
-.header {
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #58a6ff;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  background: #161b22;
-  padding: 10px 20px;
-  color: #58a6ff;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
+
+h1 {
+  margin-top: 30px;
+  font-size: 3em;
+  color: #58a6ff;
+  text-shadow: 0 0 10px #58a6ff;
+}
+
 input, button {
-  padding: 10px;
+  padding: 10px 15px;
   margin: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
+  font-size: 1em;
+  outline: none;
 }
-.search-section {
-  text-align: center;
-  margin-top: 40px;
+
+button {
+  background: #58a6ff;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 10px #58a6ff;
+  transition: background 0.3s;
 }
-.scrolling-books {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-  animation: scroll 40s linear infinite;
-  padding: 10px;
+
+button:hover {
+  background: #3b8de3;
 }
-.scrolling-books div {
-  display: inline-block;
-  margin-right: 20px;
-  color: #58a6ff;
-  text-align: center;
+
+#adminBtn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: #d1ffd1;
+  color: black;
+  font-weight: bold;
 }
-.admin-panel {
-  background: #21262d;
+
+#adminPanel, #adminContent {
+  background: rgba(0,0,0,0.7);
   padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .hidden {
   display: none;
 }
-@keyframes scroll {
-  from { transform: translateX(100%); }
-  to { transform: translateX(-100%); }
+
+#scrolling-books {
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+  animation: scrollBooks 40s linear infinite;
+}
+
+#scrolling-books div {
+  text-align: center;
+}
+
+#scrolling-books img {
+  border-radius: 10px;
+  box-shadow: 0 0 10px #58a6ff;
+}
+
+@keyframes scrollBooks {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+#recommendations {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 800px;
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  input, button {
+    width: 90%;
+    font-size: 1em;
+  }
+
+  #scrolling-books {
+    flex-direction: column;
+    animation: none;
+  }
 }
