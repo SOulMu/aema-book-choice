@@ -1,6 +1,15 @@
 let adminPassword = "bookadmin123";
 let bookList = [];
 
+// Load books from localStorage when the page loads
+window.onload = () => {
+  const savedBooks = localStorage.getItem("bookList");
+  if (savedBooks) {
+    bookList = JSON.parse(savedBooks);
+    updateScrollView();
+  }
+};
+
 document.getElementById("adminBtn").onclick = () => {
   document.getElementById("adminPanel").classList.toggle("hidden");
 };
@@ -18,8 +27,11 @@ async function addBook() {
   const title = document.getElementById("bookTitle").value;
   if (title) {
     const data = await fetchFromAPI(title);
-    if (data) bookList.push(data);
-    updateScrollView();
+    if (data) {
+      bookList.push(data);
+      saveToLocalStorage();
+      updateScrollView();
+    }
   }
 }
 
@@ -29,10 +41,17 @@ document.getElementById("bulkUpload").addEventListener("change", async (e) => {
   const titles = text.split(/\r?\n/);
   for (let title of titles) {
     const data = await fetchFromAPI(title);
-    if (data) bookList.push(data);
+    if (data) {
+      bookList.push(data);
+    }
   }
+  saveToLocalStorage();
   updateScrollView();
 });
+
+function saveToLocalStorage() {
+  localStorage.setItem("bookList", JSON.stringify(bookList));
+}
 
 function updateScrollView() {
   const scrollDiv = document.getElementById("scrolling-books");
