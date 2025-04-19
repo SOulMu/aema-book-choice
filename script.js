@@ -1,96 +1,69 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #0a0a23;
-  color: white;
-  overflow-x: hidden;
+let books = JSON.parse(localStorage.getItem('books')) || [];
+const adminPassword = "dream123";
+
+function toggleAdmin() {
+  document.getElementById("adminPanel").classList.toggle("hidden");
 }
 
-.animated-bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(-45deg, #0f0f1f, #001f3f, #003366, #000000);
-  background-size: 400% 400%;
-  animation: bgMove 20s ease infinite;
-  z-index: -1;
+function loginAdmin() {
+  const input = document.getElementById("adminPassword").value;
+  if (input === adminPassword) {
+    document.getElementById("adminForm").classList.remove("hidden");
+  } else {
+    alert("Wrong password");
+  }
 }
 
-@keyframes bgMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+function addBook() {
+  const title = document.getElementById("bookTitle").value;
+  fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}`)
+    .then(res => res.json())
+    .then(data => {
+      const book = {
+        title: title,
+        description: data.items?.[0]?.volumeInfo?.description || "No description",
+        image: data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail || ""
+      };
+      books.push(book);
+      localStorage.setItem('books', JSON.stringify(books));
+      alert("Book added!");
+    });
 }
 
-.container {
-  text-align: center;
-  padding: 50px;
+function uploadBooks() {
+  const fileInput = document.getElementById("bulkUpload");
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const data = JSON.parse(e.target.result);
+    books = books.concat(data);
+    localStorage.setItem('books', JSON.stringify(books));
+    alert("Books uploaded!");
+  };
+  reader.readAsText(fileInput.files[0]);
 }
 
-.logo {
-  font-size: 3rem;
-  color: #00ccff;
-  margin-bottom: 20px;
-}
+function searchBooks() {
+  const prompt = document.getElementById("userPrompt").value.toLowerCase();
+  const results = books.filter(book => 
+    book.title.toLowerCase().includes(prompt) || 
+    book.description.toLowerCase().includes(prompt)
+  ).slice(0, 3);
 
-.search-box input {
-  padding: 10px;
-  width: 300px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-}
+  const container = document.getElementById("results");
+  container.innerHTML = "";
+  if (results.length === 0) {
+    container.innerHTML = "<p>No results found.</p>";
+    return;
+  }
 
-.search-box button {
-  padding: 10px 20px;
-  margin-left: 10px;
-  background-color: #00ccff;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.results {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.result-card {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid #00ccff;
-  text-align: left;
-}
-
-.result-card img {
-  float: right;
-  width: 80px;
-  border-radius: 8px;
-}
-
-.admin-btn {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background-color: #aaffaa;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.admin-panel {
-  background: rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 10px;
-  display: inline-block;
-}
-
-.hidden {
-  display: none;
+  results.forEach(book => {
+    const card = document.createElement("div");
+    card.className = "result-card";
+    card.innerHTML = `
+      <h3>${book.title}</h3>
+      <p>${book.description}</p>
+      ${book.image ? `<img src="${book.image}" alt="${book.title}" />` : ""}
+    `;
+    container.appendChild(card);
+  });
 }
